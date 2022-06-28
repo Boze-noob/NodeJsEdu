@@ -9,7 +9,7 @@ router.use(function(req, res, next) {
     next();
   });
 
-router.get('/getAll', gymController.gymGetAll);
+router.get('/getAll', gymController.getAll);
 router.get('/get/:id', gymController.getById);
 router.post('/post', gymController.post);
 router.put('/put/:id', gymController.put);

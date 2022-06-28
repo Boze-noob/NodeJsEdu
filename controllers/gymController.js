@@ -1,6 +1,6 @@
 const Gym = require('../models/gym.js');
 
-exports.gymGetAll = (req, res) => {
+exports.getAll = (req, res) => {
     Gym.getAll((err, data) => {
         if(err)
         res.status(500).send({
@@ -10,8 +10,8 @@ exports.gymGetAll = (req, res) => {
     });
 }
 
-exports.findOne = (req, res) => {
-    Post.getById(req.params.id, (err, data) => {
+exports.getById = (req, res) => {
+    Gym.getById(req.params.id, (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
