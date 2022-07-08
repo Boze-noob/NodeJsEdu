@@ -9,7 +9,7 @@ const Gym = function(gym) {
 Gym.getAll = (result) => {
     let query = "SELECT * FROM gym";
 
-    mysql.query(query, (err, res) => {
+    myql.query(query, (err, res) => {
         if(err) {
             console.log("error:", err);
             result(null, err);
@@ -20,7 +20,7 @@ Gym.getAll = (result) => {
 };
 
 Gym.post = (newGym, result) => {
-    sql.query("INSERT INTO gym SET ?", newGym, (err, res) => {
+    mysql.query("INSERT INTO gym SET ?", newGym, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -33,7 +33,7 @@ Gym.post = (newGym, result) => {
   };
   
   Gym.getById = (id, result) => {
-    sql.query(`SELECT * FROM gym WHERE ID = ${id}`, (err, res) => {
+    mysql.query(`SELECT * FROM gym WHERE ID = ${id}`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -51,7 +51,7 @@ Gym.post = (newGym, result) => {
   };
   
   Gym.put = (id, Gym, result) => {
-    sql.query(
+    mysql.query(
       "UPDATE gym SET address = ?, cordinates = ?, name = ? WHERE ID = ?",
       [Gym.address, Gym.cordinates, Gym.name, id],
       (err, res) => {
@@ -74,7 +74,7 @@ Gym.post = (newGym, result) => {
   };
   
   Gym.delete = (id, result) => {
-    sql.query("DELETE FROM gym WHERE id = ?", id, (err, res) => {
+    mysql.query("DELETE FROM gym WHERE id = ?", id, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
