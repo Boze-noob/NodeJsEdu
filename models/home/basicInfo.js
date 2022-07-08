@@ -1,9 +1,9 @@
 const mysql = require("../db.js");
 
 const BasicInfo = function(basicInfo) {
-    this.completedWorkouts = basicInfo.completedWorkouts,
-    this.weight = basicInfo.weight,
-    this.daysLeft = basicInfo.daysLeft
+    this.completedWorkouts = basicInfo.Completed_workouts,
+    this.weight = basicInfo.Weight,
+    this.daysLeft = basicInfo.Days
 }
 
 BasicInfo.getBasicInfo = (id, result) => {
@@ -13,10 +13,9 @@ BasicInfo.getBasicInfo = (id, result) => {
             result(err, null);
             return;
           }
-      
           if (res.length) {
-            console.log("found basic info: ", res[0]);
-            result(null, res[0]);
+            console.log("found basic info: ", new BasicInfo(res[0]));
+            result(null, new BasicInfo(res[0]));
             return;
           }
       
