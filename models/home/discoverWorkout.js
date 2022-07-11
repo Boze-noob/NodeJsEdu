@@ -2,11 +2,11 @@ const mysql = require("../db.js");
 
 const DiscoverWorkout = function(discoverWorkout) {
     this.title = discoverWorkout.title,
-    this.numOfExercises = discoverWorkout.numOfExercises,
+    this.Num_of_exercises = discoverWorkout.numOfExercises,
     this.time = discoverWorkout.time,
-    this.backgroundColor = discoverWorkout.backgroundColor,
+    this.Background_color = discoverWorkout.backgroundColor,
     this.image = discoverWorkout.image
-}
+};
 
 DiscoverWorkout.post = (newDiscoverWorkout, result) => {
     mysql.query("INSERT INTO discover_workout SET ?", newDiscoverWorkout, (err, res) => {
@@ -18,4 +18,6 @@ DiscoverWorkout.post = (newDiscoverWorkout, result) => {
         let newDiscoverWorkoutId = res.insertId;
         result(null, {newDiscoverWorkout, newDiscoverWorkoutId});
     });
-}
+};
+
+module.exports = DiscoverWorkout;

@@ -11,6 +11,9 @@ app.use(express.json()); /* bodyParser.json() is deprecated */
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+// making uploads file publicly available
+app.use('/uploads', express.static('uploads'));
+
 app.use('/api/gym', gymRoutes);
 app.use('/api/home', homeRoutes);
 

@@ -1,8 +1,31 @@
 const DiscoverWorkout = require('../../models/home/discoverWorkout.js');
 const multer = require('multer');
-const upload = multer({dest: 'uploads/'});
+
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, './uploads/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, Math.floor(100000 + Math.random() * 900000) + '_' + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(new Error("Can't store this type of file, please use jpeg or png type of file."), false);
+    }
+}
+
+const upload = multer({
+    storage: storage,
+    fileFilter: fileFilter,
+});
 
 exports.post = (req, res) => {
+    console.log('This is your file in controller');
     console.log(req.file);
     if(!req.body) {
         res.status(400).send({
@@ -15,7 +38,7 @@ exports.post = (req, res) => {
         numOfExercises : req.body.numOfExercises,
         time : req.body.time,
         backgroundColor : req.body.backgroundColor,
-        image : req.body.image
+        image : req.file.path
     });
 
     DiscoverWorkout.post(discoverWorkout, (err, data) => {
