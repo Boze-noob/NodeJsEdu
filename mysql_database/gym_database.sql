@@ -16,6 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `discover_workout`
+--
+
+DROP TABLE IF EXISTS `discover_workout`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `discover_workout` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Title` varchar(255) DEFAULT NULL,
+  `Num_of_exercises` varchar(255) DEFAULT NULL,
+  `Time` varchar(255) DEFAULT NULL,
+  `Background_color` varchar(11) DEFAULT NULL,
+  `Image` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `discover_workout`
+--
+
+LOCK TABLES `discover_workout` WRITE;
+/*!40000 ALTER TABLE `discover_workout` DISABLE KEYS */;
+INSERT INTO `discover_workout` VALUES (1,'Title','25','30 min',NULL,'uploads\\IMG-20200709-WA0014.jpg'),(2,'Title','25','30 min',NULL,'uploads\\IMG-20200709-WA0014.jpg'),(3,'Title','25','30 min',NULL,'uploads\\IMG-20200709-WA0014.jpg'),(4,'Title','25','30 min','#000000','uploads\\IMG-20200709-WA0014.jpg'),(5,'Title','25','30 min','#000000','uploads\\krmIMG-20200709-WA0014.jpg'),(6,'Title','25','30 min','#000000','uploads\\600224IMG-20200709-WA0014.jpg'),(7,'Title','25','30 min','#000000','uploads\\302501IMG-20200709-WA0014.jpg'),(8,'Title','25','30 min','#000000','uploads\\305104_IMG-20200709-WA0014.jpg');
+/*!40000 ALTER TABLE `discover_workout` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `employee`
 --
 
@@ -189,4 +217,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-08 15:13:29
+-- Dump completed on 2022-07-11 18:46:50
