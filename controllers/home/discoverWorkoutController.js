@@ -24,6 +24,22 @@ const upload = multer({
     fileFilter: fileFilter,
 });
 
+exports.get = (req, res) => {
+    DiscoverWorkout.get((err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `Not found discover workouts`
+              });
+            } else {
+              res.status(500).send({
+                message: "Error retrieving discover workouts"
+              });
+            }
+          } else res.send(data);
+    })
+}
+
 exports.post = (req, res) => {
     console.log('This is your file in controller');
     console.log(req.file);

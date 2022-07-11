@@ -11,6 +11,7 @@ router.use(function(req, res, next) {
   });
 
   router.get('/get/basicInfo/:id', basicInfoController.getBasicInfo);
+  router.get('/get/discoverWorkout', discoverWorkoutController.get);
   router.post('/post/discoverWorkout',discoverWorkoutController.postMiddleware, discoverWorkoutController.post)
 
   module.exports = router;
