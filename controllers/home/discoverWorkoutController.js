@@ -41,8 +41,6 @@ exports.get = (req, res) => {
 }
 
 exports.post = (req, res) => {
-    console.log('This is your file in controller');
-    console.log(req.file);
     if(!req.body) {
         res.status(400).send({
             message: "Body is empty"

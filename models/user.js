@@ -2,13 +2,26 @@ const mysql = require("./db.js");
 
 const User = function(user) {
     this.ID = user.ID,
-    this.Username = user.Username,
-    this.Password = user.Password,
-    this.Weight = user.Weight,
-    this.Address = user.Address,
-    this.Exercise_ID = user.Exercise_ID,
-    this.Subscription_ID = user.Subscription_ID,
-    this.Completed_workouts = user.Completed_workouts
+    this.username = user.Username,
+    this.password = user.Password,
+    this.weight = user.Weight,
+    this.address = user.Address,
+    this.exerciseId = user.Exercise_ID,
+    this.subscriptionId = user.Subscription_ID,
+    this.completedWorkouts = user.Completed_workouts,
+    this.profileImage = user.Profile_image
+}
+
+User.toDatabaseModel = function(user) {
+    this.ID = user.ID,
+    this.Username = user.body.username,
+    this.Password = user.body.password,
+    this.Address = user.body.address,
+    this.Weight = user.body.weight,
+    this.Profile_image = user.file.profileImage,
+    this.Completed_workouts = user.body.completedWorkouts
+    this.Subscription_ID = user.body.subscriptionId,
+    this.Exercise_ID = user.body.exerciseId
 }
 
 User.getById = (id, result) => {
@@ -19,10 +32,21 @@ User.getById = (id, result) => {
             return 
         }        
         if(res.length) {
-            result(null, res[0]);
+            result(null, new User(res[0]));
             return;
         }
         result({kind: "not found" }, null);
+    })
+};
+
+User.post = (newUser, result) => {
+    mysql.query("INSERT INTO user SET ?", newUser, (err, res) => {
+        if(err) {
+            console.log("Error while inserting into database occured: ", err)
+            result(err, null);
+            return;
+        }
+        result(null, newUser);
     })
 }
 
