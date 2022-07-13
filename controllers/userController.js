@@ -4,7 +4,7 @@ const multer = require('multer');
 //Profile images will be stored in non-public folder
 const storage = multer.diskStorage({
   destination: function(req, file, cb){
-      cb(null, './profile_images_uploads/');
+      cb(null, './uploads/');
   },
   filename: function(req, file, cb) {
       cb(null, Math.floor(100000 + Math.random() * 900000) + '_' + file.originalname);
