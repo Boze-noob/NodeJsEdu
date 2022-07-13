@@ -3,7 +3,6 @@ const mysql = require("./db.js");
 const User = function(user) {
     this.ID = user.ID,
     this.username = user.Username,
-    this.password = user.Password,
     this.weight = user.Weight,
     this.address = user.Address,
     this.exerciseId = user.Exercise_ID,
