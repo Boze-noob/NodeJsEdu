@@ -12,17 +12,19 @@ const User = function(user) {
     this.profileImage = user.Profile_image
 }
 
-User.toDatabaseModel = function(user) {
-    this.ID = user.ID,
-    this.Username = user.body.username,
-    this.Password = user.body.password,
-    this.Address = user.body.address,
-    this.Weight = user.body.weight,
-    this.Profile_image = user.file.profileImage,
-    this.Completed_workouts = user.body.completedWorkouts
-    this.Subscription_ID = user.body.subscriptionId,
-    this.Exercise_ID = user.body.exerciseId
-}
+User.toDatabaseModel = function(req) {
+    return{
+        ID : req.body.ID,
+        Username : req.body.username,
+        Password : req.body.password,
+        Address : req.body.address,
+        Weight : req.body.weight,
+        Profile_image : req.file.path,
+        Completed_workouts : req.body.completedWorkouts,
+        Subscription_ID : req.body.subscriptionId,
+        Exercise_ID : req.body.exerciseId
+    }
+} 
 
 User.getById = (id, result) => {
     mysql.query(`SELECT * FROM User WHERE ID = ${id}`, (err, res) => {
