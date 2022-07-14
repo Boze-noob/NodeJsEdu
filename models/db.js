@@ -3,7 +3,6 @@ const mysql = require("mysql");
 console.log(process.env.DATABASE);
 const connection = mysql.createConnection({
   host: "localhost",
-  //cant read USER from .env file idk why?
   user: "root",
   password: "",
   database: "gym",
