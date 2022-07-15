@@ -12,8 +12,6 @@ UserProgress.get = async (id, result) => {
     return;
 }
 
-
-
 async function getListOfUsersExercises(id){
     let query = `SELECT * FROM Exercise WHERE NOT ID=${id}`;
     let conn = await promiseDatabase.getDBConnection();

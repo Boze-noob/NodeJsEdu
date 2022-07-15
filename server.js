@@ -2,6 +2,7 @@ const express = require("express");
 const gymRoutes = require("./routes/gymRoutes.js");
 const homeRoutes = require("./routes/homeRoutes.js");
 const userRoutes = require("./routes/userRoutes.js");
+const subscriptionRoutes = require("./routes/subscriptionRoutes.js");
 require('dotenv').config();
 
 const app = express();
@@ -18,6 +19,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api/gym', gymRoutes);
 app.use('/api/home', homeRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/subscription', subscriptionRoutes);
 
 
 app.listen(process.env.PORT, () => {
