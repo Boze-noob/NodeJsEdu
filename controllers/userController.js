@@ -1,5 +1,6 @@
 const User = require('../models/user.js');
 const multer = require('multer');
+const bcrypt = require('bcrypt');
 
 //Profile images will be stored in non-public folder
 const storage = multer.diskStorage({
@@ -40,23 +41,37 @@ exports.getById = (req, res) => {
     });
 };
 
-exports.post = (req, res) => {
+exports.post = async (req, res) => {
   if(!req.body) {
     res.status(400).send({
       message: "Body should not be empty"
     });
   }
-  const user = User.toDatabaseModel(req);
-
-  User.post(user, (err, data) => {
+  //TODO add email check 
+  //This should be done in model part, I will refactor later
+  bcrypt.hash(req.body.password, 10, (err, hash) => {
+    if(err) {
+            
+      console.log("Error happen while hashing");
+      console.log(err);
+      res.status(500).send({
+        message: "Error occurred while hashing the user password!"
+      });
+  } else {
+    req.body.password = hash;
+    const user = User.toDatabaseModel(req);
+    User.post(user, (err, data) => {
+      if(err) 
     if(err) 
-    res.status(500).send({
-      message: err.message || "Some error occurred while creating new user!"
+      if(err) 
+      res.status(500).send({
+        message: err.message || "Some error occurred while creating new user!"
+      });
+      else res.send(data);
     });
-    else res.send(data);
-  });
-
-
+  }
+  })
+  
 };
 
 exports.postMiddleware = upload.single('profileImage')

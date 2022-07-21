@@ -10,6 +10,6 @@ router.use(function(req, res, next){
 });
 
 router.get('/get/:id', userController.getById);
-router.post('/post/', userController.postMiddleware, userController.post)
+router.post('/signup', userController.postMiddleware, userController.post);
 
 module.exports = router;

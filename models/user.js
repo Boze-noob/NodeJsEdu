@@ -3,6 +3,8 @@ const mysql = require("./db.js");
 const User = function(user) {
     this.ID = user.ID,
     this.username = user.Username,
+    this.email = user.Email,
+    this.password = user.Password,
     this.weight = user.Weight,
     this.address = user.Address,
     this.exerciseId = user.Exercise_ID,
@@ -12,17 +14,18 @@ const User = function(user) {
 }
 
 User.toDatabaseModel = function(req) {
-    return{
+    return {
         ID : req.body.ID,
         Username : req.body.username,
+        Email : req.body.email,
         Password : req.body.password,
         Address : req.body.address,
         Weight : req.body.weight,
-        Profile_image : req.file.path,
+        Profile_image : (!req.file) ? undefined : req.file.path,
         Completed_workouts : req.body.completedWorkouts,
         Subscription_ID : req.body.subscriptionId,
         Exercise_ID : req.body.exerciseId
-    }
+    }  
 } 
 
 User.getById = (id, result) => {
