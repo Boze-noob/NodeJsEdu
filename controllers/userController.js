@@ -28,7 +28,7 @@ const upload = multer({
 exports.getById = (req, res) => {
     User.getById(req.params.id, (err, data) => {
         if (err) {
-            if (err.kind === "not_found") {
+            if (err.kind === "not found") {
               res.status(404).send({
                 message: `Not found User with id ${req.params.id}.`
               });
@@ -37,7 +37,7 @@ exports.getById = (req, res) => {
                 message: "Error retrieving User with id " + req.params.id
               });
             }
-          } else res.send(data);
+          } else res.status(200).send(data);
     });
 };
 
@@ -48,8 +48,6 @@ exports.post = async (req, res) => {
     });
   }
   User.getEmail(req.body.email, (err, data) => {
-    console.log("Data retrived by getEmail is down below:");
-    console.log(data);
     if (err) {
         res.status(500).send({
           message: err
@@ -71,7 +69,7 @@ exports.post = async (req, res) => {
           message: err.message || "Some error occurred while creating new user!"
         });
       }
-      else res.send(data);
+      else res.status(200).send(data);
     });
   }
   });
@@ -82,6 +80,24 @@ exports.post = async (req, res) => {
       })
     }
   });  
+};
+
+exports.delete = (req, res) => {
+  User.delete(req.params.id, (err, data) => {
+      if (err) {
+          if (err.kind === "not found") {
+            res.status(404).send({
+              message: `Not found User with id ${req.params.id}.`
+            });
+          } else {
+            res.status(500).send({
+              message: "Error while deleting User with id " + req.params.id
+            });
+          }
+        } else res.status(200).send({
+          message: "Successfully deleted user with id " + req.params.id
+        })
+  });
 };
 
 exports.postMiddleware = upload.single('profileImage')
