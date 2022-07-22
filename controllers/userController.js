@@ -47,13 +47,18 @@ exports.post = async (req, res) => {
       message: "Body should not be empty"
     });
   }
-  //TODO add email check 
+  User.getEmail(req.body.email, (err, data) => {
+    console.log("Data retrived by getEmail is down below:");
+    console.log(data);
+    if (err) {
+        res.status(500).send({
+          message: err
+        });
+        //If there is no user in database with this email
+    } else if(!data) {
   //This should be done in model part, I will refactor later
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if(err) {
-            
-      console.log("Error happen while hashing");
-      console.log(err);
       res.status(500).send({
         message: "Error occurred while hashing the user password!"
       });
@@ -61,17 +66,22 @@ exports.post = async (req, res) => {
     req.body.password = hash;
     const user = User.toDatabaseModel(req);
     User.post(user, (err, data) => {
-      if(err) 
-    if(err) 
-      if(err) 
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating new user!"
-      });
+      if(err) {
+        res.status(500).send({
+          message: err.message || "Some error occurred while creating new user!"
+        });
+      }
       else res.send(data);
     });
   }
-  })
-  
+  });
+  //There is user with this email in database
+    } else {
+      res.status(409).send({
+        message: "User with this email already exist"
+      })
+    }
+  });  
 };
 
 exports.postMiddleware = upload.single('profileImage')

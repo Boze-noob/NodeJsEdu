@@ -52,6 +52,24 @@ User.post = (newUser, result) => {
         }
         result(null, newUser);
     })
+};
+
+User.getEmail = (email, result) => {
+    mysql.query("SELECT Email FROM User WHERE Email = ?", email, (err, res) => {
+        console.log("This is res of getEmail");
+        console.log(res);
+        if(err) {
+            console.log("error happen", err)
+            result(err, null);
+            return;
+        } 
+        if(res.length) {
+            console.log("we enter into res.length in model");
+            result(null, res);
+            return;
+        }
+        result(null, null);
+    });
 }
 
 module.exports = User;
