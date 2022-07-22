@@ -69,7 +69,10 @@ exports.post = async (req, res) => {
           message: err.message || "Some error occurred while creating new user!"
         });
       }
-      else res.status(200).send(data);
+      else res.status(200).send({
+        message: "User created succesfully",
+        data : data
+      });
     });
   }
   });
