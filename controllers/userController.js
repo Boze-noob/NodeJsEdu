@@ -42,9 +42,15 @@ exports.getById = (req, res) => {
 };
 
 exports.post = async (req, res) => {
+  var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
   if(!req.body) {
     res.status(400).send({
       message: "Body should not be empty"
+    });
+  }
+  if(!emailRegex.test(req.body.email)){
+    res.status(400).send({
+      message: "Enter valid email address"
     });
   }
   User.getEmail(req.body.email, (err, data) => {
