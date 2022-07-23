@@ -10,7 +10,7 @@ router.use(function(req, res, next){
 });
 
 router.get('/get/:id', userController.getById);
-router.post('/signup', userController.postMiddleware, userController.post);
+router.post('/post/signup', userController.postMiddleware, userController.post);
 router.delete('/delete/:id', userController.delete);
 
 module.exports = router;
