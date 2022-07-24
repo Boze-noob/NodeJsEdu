@@ -9,7 +9,7 @@ const Gym = function(gym) {
 Gym.getAll = (result) => {
     let query = "SELECT * FROM gym";
 
-    myql.query(query, (err, res) => {
+    mysql.query(query, (err, res) => {
         if(err) {
             console.log("error:", err);
             result(err, null);
