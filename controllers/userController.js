@@ -41,7 +41,7 @@ exports.getById = (req, res) => {
     });
 };
 
-exports.post = async (req, res) => {
+exports.postSignUp = async (req, res) => {
   var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
   if(!req.body) {
     res.status(400).send({
@@ -69,7 +69,7 @@ exports.post = async (req, res) => {
   } else {
     req.body.password = hash;
     const user = User.toDatabaseModel(req);
-    User.post(user, (err, data) => {
+    User.postSignUp(user, (err, data) => {
       if(err) {
         res.status(500).send({
           message: err.message || "Some error occurred while creating new user!"

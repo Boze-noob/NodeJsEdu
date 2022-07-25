@@ -43,7 +43,7 @@ User.getById = (id, result) => {
     })
 };
 
-User.post = (newUser, result) => {
+User.postSignUp = (newUser, result) => {
     mysql.query("INSERT INTO user SET ?", newUser, (err, res) => {
         if(err) {
             console.log("Error while inserting into database occured: ", err)
