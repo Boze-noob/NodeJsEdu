@@ -54,8 +54,8 @@ User.postSignUp = (newUser, result) => {
     })
 };
 
-User.getEmail = (email, result) => {
-    mysql.query("SELECT Email FROM User WHERE Email = ?", email, (err, res) => {
+User.getByEmail = (email, result) => {
+    mysql.query("SELECT * FROM User WHERE Email = ?", email, (err, res) => {
         if(err) {
             console.log("error happen", err)
             result(err, null);
@@ -66,14 +66,13 @@ User.getEmail = (email, result) => {
             return;
         }
         result(null, null);
+        return;
     });
 };
 
 User.delete = (id, result) => {
     mysql.query(`DELETE FROM User WHERE ID = ${id}`, (err, res) => {
         if(err) {
-            console.log("we enter into error happen");
-            console.log("error happen", err)
             result(err, null);
             return 
         }        

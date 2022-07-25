@@ -1,6 +1,7 @@
 const User = require('../models/user.js');
 const multer = require('multer');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 //Profile images will be stored in non-public folder
 const storage = multer.diskStorage({
@@ -53,7 +54,7 @@ exports.postSignUp = async (req, res) => {
       message: "Enter valid email address"
     });
   }
-  User.getEmail(req.body.email, (err, data) => {
+  User.getByEmail(req.body.email, (err, data) => {
     if (err) {
         res.status(500).send({
           message: err
@@ -91,6 +92,43 @@ exports.postSignUp = async (req, res) => {
   });  
 };
 
+exports.postLogIn = (req, res) => {
+  User.getByEmail(req.body.email, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err
+      });
+      return;
+      //If there is no user in database with this email
+  } else if(!data) {
+    res.status(401).send({
+      message: "Auth failed, check email and password!"
+    });
+    return;
+  }
+    bcrypt.compare(req.body.password, data[0].Password, (err, result) => {
+      if(err) {
+        res.status(401).send({
+          message: "Auth failed! " + err
+        });
+        return;
+      } if(result) {
+        const token = createToken(data[0].Email, data[0].ID)
+        res.status(200).send({
+          message: "Auth successful!",
+          token: token
+        });
+        return;
+      }
+      //If password is not correct
+      res.status(401).send({
+        message: "Auth failed, check email and password!"
+      });
+      return;
+    });
+  });
+};
+
 exports.delete = (req, res) => {
   User.delete(req.params.id, (err, data) => {
       if (err) {
@@ -109,4 +147,12 @@ exports.delete = (req, res) => {
   });
 };
 
-exports.postMiddleware = upload.single('profileImage')
+exports.postMiddleware = upload.single('profileImage');
+
+
+function createToken(email, ID) {
+  const token = jwt.sign({email: email, ID: ID}, process.env.JWT_KEY, {
+    expiresIn: "1h"
+  });
+  return token;
+}
