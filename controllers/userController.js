@@ -30,10 +30,12 @@ exports.getById = (req, res) => {
     User.getById(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not found") {
+              res.statusMessage = `Not found User with id ${req.params.id}.`;
               res.status(404).send({
                 message: `Not found User with id ${req.params.id}.`
               });
             } else {
+              res.statusMessage = "Error retrieving User with id " + req.params.id;
               res.status(500).send({
                 message: "Error retrieving User with id " + req.params.id
               });
@@ -45,17 +47,20 @@ exports.getById = (req, res) => {
 exports.postSignUp = async (req, res) => {
   var emailRegex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/;
   if(!req.body) {
+    res.statusMessage = "Body should not be empty";
     res.status(400).send({
       message: "Body should not be empty"
     });
   }
   if(!emailRegex.test(req.body.email)){
+    res.statusMessage = "Enter valid email address";
     res.status(400).send({
       message: "Enter valid email address"
     });
   }
   User.getByEmail(req.body.email, (err, data) => {
     if (err) {
+      res.statusMessage = err;
         res.status(500).send({
           message: err
         });
@@ -64,6 +69,7 @@ exports.postSignUp = async (req, res) => {
   //This should be done in model part, I will refactor later
   bcrypt.hash(req.body.password, 10, (err, hash) => {
     if(err) {
+      res.statusMessage = "Error occurred while hashing the user password!";
       res.status(500).send({
         message: "Error occurred while hashing the user password!"
       });
@@ -72,6 +78,7 @@ exports.postSignUp = async (req, res) => {
     const user = User.toDatabaseModel(req);
     User.postSignUp(user, (err, data) => {
       if(err) {
+        res.statusMessage = err.message || "Some error occurred while creating new user!";
         res.status(500).send({
           message: err.message || "Some error occurred while creating new user!"
         });
@@ -85,6 +92,7 @@ exports.postSignUp = async (req, res) => {
   });
   //There is user with this email in database
     } else {
+      res.statusMessage = "User with this email already exist";
       res.status(409).send({
         message: "User with this email already exist"
       })
@@ -95,12 +103,14 @@ exports.postSignUp = async (req, res) => {
 exports.postLogIn = (req, res) => {
   User.getByEmail(req.body.email, (err, data) => {
     if (err) {
+      res.statusMessage = err;
       res.status(500).send({
         message: err
       });
       return;
       //If there is no user in database with this email
   } else if(!data) {
+    res.statusMessage = "Auth failed, check email and password!";
     res.status(401).send({
       message: "Auth failed, check email and password!"
     });
@@ -108,6 +118,7 @@ exports.postLogIn = (req, res) => {
   }
     bcrypt.compare(req.body.password, data[0].Password, (err, result) => {
       if(err) {
+        res.statusMessage = "Auth failed! " + err;
         res.status(401).send({
           message: "Auth failed! " + err
         });
@@ -120,6 +131,7 @@ exports.postLogIn = (req, res) => {
         });
         return;
       }
+      res.statusMessage = "Auth failed, check email and password!";
       //If password is not correct
       res.status(401).send({
         message: "Auth failed, check email and password!"
@@ -133,10 +145,12 @@ exports.delete = (req, res) => {
   User.delete(req.params.id, (err, data) => {
       if (err) {
           if (err.kind === "not found") {
+            res.statusMessage = `Not found User with id ${req.params.id}.`;
             res.status(404).send({
               message: `Not found User with id ${req.params.id}.`
             });
           } else {
+            res.statusMessage = "Error while deleting User with id " + req.params.id;
             res.status(500).send({
               message: "Error while deleting User with id " + req.params.id
             });
